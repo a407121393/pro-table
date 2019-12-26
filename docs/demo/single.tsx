@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Icon, Tag } from 'antd';
 // eslint-disable-next-line import/no-unresolved
-import ProTable, { ProColumns, TableDropdown } from '@ant-design/pro-table';
+import ProTable, { ProColumns, TableDropdown } from '../../src';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import request from 'umi-request';
 
@@ -185,5 +185,9 @@ export default () => (
         新建
       </Button>,
     ]}
+    pagination={{
+      defaultPageSize: 100
+    }}
+    rowSelection={{}}
   />
 );
