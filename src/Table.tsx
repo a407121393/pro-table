@@ -87,11 +87,11 @@ export interface ProColumns<T = unknown> extends Omit<ColumnProps<T>, 'render' |
    */
   valueEnum?: {
     [key: string]:
-      | {
-          text: ReactNode;
-          status: StatusType;
-        }
-      | ReactNode;
+    | {
+      text: ReactNode;
+      status: StatusType;
+    }
+    | ReactNode;
   };
 
   /**
@@ -551,12 +551,6 @@ const ProTable = <T, U = {}>(props: ProTableProps<T>) => {
   const rowSelection: TableRowSelection<T> = {
     selectedRowKeys,
     ...propsRowSelection,
-    onChange: (keys, rows) => {
-      if (propsRowSelection && propsRowSelection.onChange) {
-        propsRowSelection.onChange(keys, rows);
-      }
-      setSelectedRowKeys(keys);
-    },
   };
 
   return (
@@ -609,7 +603,14 @@ const ProTable = <T, U = {}>(props: ProTableProps<T>) => {
         )}
         <Table
           {...reset}
-          rowSelection={propsRowSelection === false ? undefined : rowSelection}
+          rowSelection={propsRowSelection === false ? undefined : {
+            onChange: (keys, rows) => {
+              if (propsRowSelection && propsRowSelection.onChange) {
+                propsRowSelection.onChange(keys, rows);
+              }
+              setSelectedRowKeys(keys);
+            },
+          }}
           className={tableClassName}
           style={tableStyle}
           columns={counter.columns.filter(item => {
