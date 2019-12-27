@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Button, Icon, Tag } from 'antd';
 // eslint-disable-next-line import/no-unresolved
 import ProTable, { ProColumns, TableDropdown } from '../../src';
@@ -142,7 +142,13 @@ const columns: ProColumns<GithubIssueItem>[] = [
   },
 ];
 
-export default () => (
+export default () => {
+  const testFixeRowSelectKeys = useRef({
+    keys:[],
+    rows:[]
+  });
+  
+  return (
   <ProTable<GithubIssueItem>
     columns={columns}
     request={async (params = {}) => {
@@ -188,6 +194,14 @@ export default () => (
     pagination={{
       defaultPageSize: 100
     }}
-    rowSelection={{}}
+    fixRowSelection={{
+      onChange: (keys, rows) => {
+        const keyCurrent = testFixeRowSelectKeys.current as any;
+        keyCurrent.keys = keys;
+        keyCurrent.rows = rows;
+
+        console.log(keyCurrent)
+      }
+    }}
   />
-);
+)};

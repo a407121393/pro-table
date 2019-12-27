@@ -204,6 +204,8 @@ export interface ProTableProps<T> extends Omit<TableProps<T>, 'columns' | 'rowSe
   rowSelection?: TableProps<T>['rowSelection'] | false;
 
   style?: React.CSSProperties;
+
+  fixRowSelection?: TableProps<T>['rowSelection'] | false;
 }
 
 const mergePagination = <T extends any[], U>(
@@ -444,6 +446,7 @@ const ProTable = <T, U = {}>(props: ProTableProps<T>) => {
     rowSelection: propsRowSelection = false,
     beforeSearchSubmit = (searchParams: any) => searchParams,
     tableAlertRender,
+    fixRowSelection,
     ...reset
   } = props;
 
@@ -618,7 +621,7 @@ const ProTable = <T, U = {}>(props: ProTableProps<T>) => {
         )}
         <Table
           {...reset}
-          rowSelection={propsRowSelection === false ? undefined : rowSelection}
+          rowSelection={ fixRowSelection ? fixRowSelection : (propsRowSelection === false ? undefined : rowSelection)}
           className={tableClassName}
           style={tableStyle}
           columns={counter.columns.filter(item => {
